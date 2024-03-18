@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 import Field from "../shared/Field";
 
 export default function RegisterForm() {
@@ -8,13 +9,19 @@ export default function RegisterForm() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const handleRegister = () => {};
+  const { registerUser } = useAuth();
+
+  const handleRegister = async (formData) => {
+    const user = await registerUser(formData.email, formData.password);
+    console.log(user);
+  };
+
   return (
-    <form onSubmit={handleSubmit(handleRegister())} autoComplete="off">
+    <form onSubmit={handleSubmit(handleRegister)} autoComplete="off">
       <Field label="First Name" error={errors.firstName}>
         <input
           {...register("firstName", {
-            required: "First Name is required.",
+            required: "First name is required.",
           })}
           type="text"
           id="firstName"
@@ -25,7 +32,7 @@ export default function RegisterForm() {
       <Field label="Last Name" error={errors.lastName}>
         <input
           {...register("lastName", {
-            required: "Last Name is required.",
+            required: "Last name is required.",
           })}
           type="text"
           id="lastName"
