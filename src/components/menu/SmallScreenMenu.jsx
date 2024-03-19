@@ -21,7 +21,7 @@ const SmallScreenMenu = () => {
       className="flex md:hidden"
     >
       <motion.button
-        className="flex items-center justify-between w-[90vw] p-2 text-black bg-white rounded-md"
+        className="flex items-center justify-between w-[90vw] p-2 text-sm text-black bg-white rounded-md"
         whileTap={{ scale: 0.97 }}
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -40,7 +40,7 @@ const SmallScreenMenu = () => {
         </motion.div>
       </motion.button>
       <motion.ul
-        className="flex flex-col w-full py-4 space-y-1 bg-white rounded-md"
+        className="flex flex-col w-full py-4 space-y-1 text-sm bg-white rounded-md"
         variants={{
           open: {
             clipPath: "inset(0% 0% 0% 0% round 10px)",
@@ -63,29 +63,41 @@ const SmallScreenMenu = () => {
         }}
         style={{ pointerEvents: isOpen ? "auto" : "none", color: "black" }}
       >
-        <motion.li variants={itemVariants} className="menu-li">
-          <Link path="/add-articles" title="Add Articles" />
-        </motion.li>
-        <motion.li variants={itemVariants} className="menu-li">
-          <Link path="/subscription" title=" Subscription" />
-        </motion.li>
-        <motion.li variants={itemVariants} className="menu-li">
-          <Link path="/Premium-articles" title="Premium Articles" />
-        </motion.li>
+        {user?.email && (
+          <>
+            <motion.li variants={itemVariants} className="menu-li">
+              <Link path="/dashboard" title="Dashboard" />
+            </motion.li>
+            <motion.li variants={itemVariants} className="menu-li">
+              <Link path="/add-articles" title="Add Articles" />
+            </motion.li>
+            <motion.li variants={itemVariants} className="menu-li">
+              <Link path="/subscription" title=" Subscription" />
+            </motion.li>
+            <motion.li variants={itemVariants} className="menu-li">
+              <Link path="/Premium-articles" title="Premium Articles" />
+            </motion.li>
+          </>
+        )}
+
         <motion.li variants={itemVariants} className="menu-li">
           <Link path="/all-article" title="All Articles" />
         </motion.li>
-        <motion.li variants={itemVariants} className="menu-li">
-          <Link path="/dashboard" title="Dashboard" />
-        </motion.li>
+
         <motion.li variants={itemVariants}>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="w-full p-1 px-4 font-semibold text-white bg-indigo-500"
-          >
-            Logout
-          </motion.button>
+          {!user?.email ? (
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="w-full p-1 px-4 font-semibold text-white bg-indigo-500"
+            >
+              Logout
+            </motion.button>
+          ) : (
+            <div className="menu-li">
+              <Link path="/login" title="Login" />
+            </div>
+          )}
         </motion.li>
       </motion.ul>
     </motion.nav>
