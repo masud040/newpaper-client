@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -120,5 +121,8 @@
   }
   .large-button {
     @apply flex items-center justify-center w-full p-3 mx-auto text-white transition-all duration-200 bg-indigo-600 rounded-md disabled:bg-gray-500 hover:bg-indigo-700;
+  }
+  .menu-li {
+    @apply w-full p-1 hover:bg-indigo-200;
   }
 }
