@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FaSpinner } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Field from "../shared/Field";
@@ -85,18 +86,11 @@ export default function RegisterForm() {
         />
       </Field>
       <div className="mb-6">
-        <button
-          disabled={loading}
-          type="submit"
-          className="w-full p-3 text-white transition-all duration-200 bg-indigo-600 rounded-md disabled:bg-gray-500 hover:bg-indigo-700"
-        >
-          {loading ? "Creating..." : "Create Account"}
+        <button disabled={loading} type="submit" className="large-button">
+          {loading ? <FaSpinner className="animate-spin" /> : "Create Account"}
         </button>
       </div>
-      <SocialLogin
-        githubTitle="Sign up with Github"
-        googleTitle="Sign up with Google"
-      />
+      <SocialLogin title="Sign up with Google" />
       <p className="text-center">
         Already have account?
         <Link to="/login" className="text-indigo-600 hover:underline">

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FaSpinner } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Field from "../shared/Field";
 import SocialLogin from "./SocialLogin";
-
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -57,18 +57,11 @@ export default function LoginForm() {
         />
       </Field>
       <div className="mb-6">
-        <button
-          disabled={loading}
-          type="submit"
-          className="w-full p-3 text-white transition-all duration-200 bg-indigo-600 rounded-md disabled:bg-gray-500 hover:bg-indigo-700"
-        >
-          {loading ? "Logging..." : "Login"}
+        <button disabled={loading} type="submit" className="large-button">
+          {loading ? <FaSpinner className="animate-spin" /> : "Login"}
         </button>
       </div>
-      <SocialLogin
-        githubTitle="Login with Github"
-        googleTitle="Login with Google"
-      />
+      <SocialLogin title="Login with Google" />
       <p className="text-center">
         Don't have an account?{" "}
         <Link to="/register" className="text-indigo-600 hover:underline">
