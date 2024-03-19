@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Field from "../shared/Field";
+import SocialLogin from "./SocialLogin";
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
@@ -64,6 +65,10 @@ export default function LoginForm() {
           {loading ? "Logging..." : "Login"}
         </button>
       </div>
+      <SocialLogin
+        githubTitle="Login with Github"
+        googleTitle="Login with Google"
+      />
       <p className="text-center">
         Don't have an account?{" "}
         <Link to="/register" className="text-indigo-600 hover:underline">

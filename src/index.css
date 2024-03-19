@@ -115,4 +115,7 @@
   .action-menu-item {
     @apply flex items-center w-full gap-2 px-4 py-2 text-gray-100 transition-all hover:bg-slate-800;
   }
+  .social-menu {
+    @apply flex items-center justify-center gap-3 p-1.5 my-6 bg-indigo-600 rounded-md hover:bg-indigo-700;
+  }
 }
