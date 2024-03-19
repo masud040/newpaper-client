@@ -1,19 +1,32 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Field from "../shared/Field";
 
 export default function RegisterForm() {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { registerUser } = useAuth();
+  const { registerUser, updateUserProfile } = useAuth();
 
   const handleRegister = async (formData) => {
-    const user = await registerUser(formData.email, formData.password);
-    console.log(user);
+    try {
+      setLoading(true);
+      const fullName = `${formData.firstName} ${formData.lastName}`;
+
+      await registerUser(formData.email, formData.password);
+      await updateUserProfile(fullName, null);
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -67,10 +80,11 @@ export default function RegisterForm() {
       </Field>
       <div className="mb-6">
         <button
+          disabled={loading}
           type="submit"
-          className="w-full p-3 text-white transition-all duration-200 bg-indigo-600 rounded-md hover:bg-indigo-700"
+          className="w-full p-3 text-white transition-all duration-200 bg-indigo-600 rounded-md disabled:bg-gray-500 hover:bg-indigo-700"
         >
-          Create Account
+          {loading ? "Creating..." : "Create Account"}
         </button>
       </div>
       <p className="text-center">

@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  updateProfile,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { AuthContext } from "../context";
@@ -12,6 +13,13 @@ export default function AuthProvider({ children }) {
   const registerUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
+  };
+  const updateUserProfile = (name, imageUrl) => {
+    setLoading(true);
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: imageUrl,
+    });
   };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -26,6 +34,7 @@ export default function AuthProvider({ children }) {
     loading,
     setLoading,
     registerUser,
+    updateUserProfile,
   };
   return (
     <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>
