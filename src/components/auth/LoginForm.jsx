@@ -1,15 +1,34 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 import Field from "../shared/Field";
 
 export default function LoginForm() {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const handleLogin = (formData) => {
-    console.log(formData);
+  const { signInUser } = useAuth();
+
+  const handleLogin = async (formData) => {
+    try {
+      setLoading(true);
+      const { user } = await signInUser(formData.email, formData.password);
+      if (user?.email) {
+        toast.success("Login success.");
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error(error.message);
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <form onSubmit={handleSubmit(handleLogin)}>
@@ -38,10 +57,11 @@ export default function LoginForm() {
       </Field>
       <div className="mb-6">
         <button
+          disabled={loading}
           type="submit"
-          className="w-full p-3 text-white transition-all duration-200 bg-indigo-600 rounded-md hover:bg-indigo-700"
+          className="w-full p-3 text-white transition-all duration-200 bg-indigo-600 rounded-md disabled:bg-gray-500 hover:bg-indigo-700"
         >
-          Login
+          {loading ? "Logging..." : "Login"}
         </button>
       </div>
       <p className="text-center">

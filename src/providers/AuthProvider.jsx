@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
@@ -21,6 +22,11 @@ export default function AuthProvider({ children }) {
       photoURL: imageUrl,
     });
   };
+  const signInUser = (email, password) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -35,6 +41,7 @@ export default function AuthProvider({ children }) {
     setLoading,
     registerUser,
     updateUserProfile,
+    signInUser,
   };
   return (
     <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>

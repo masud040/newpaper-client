@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Field from "../shared/Field";
 
 export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -19,8 +20,12 @@ export default function RegisterForm() {
       setLoading(true);
       const fullName = `${formData.firstName} ${formData.lastName}`;
 
-      await registerUser(formData.email, formData.password);
+      const { user } = await registerUser(formData.email, formData.password);
       await updateUserProfile(fullName, null);
+      if (user?.email) {
+        toast.success("Successfully registered.");
+        navigate("/login");
+      }
     } catch (error) {
       toast.error(error.message);
       console.log(error.message);
