@@ -18,7 +18,7 @@ const SmallScreenMenu = () => {
     <motion.nav
       initial={false}
       animate={isOpen ? "open" : "closed"}
-      className="flex md:hidden"
+      className="flex h-0 md:hidden"
     >
       <motion.button
         className="flex items-center justify-between w-[90vw] p-2 text-sm text-black bg-white rounded-md"
