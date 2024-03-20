@@ -9,23 +9,31 @@ export default function AddArticle() {
     handleSubmit,
     formState: { errors },
     setError,
+    setValue,
   } = useForm();
   const [avatarURL, setAvatarURL] = useState("");
-  const [selectedOption, setSelectedOption] = useState([]);
-  const handleSelectTags = (e) => {
-    setSelectedOption([...selectedOption, e.value]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const handleSelectTags = (e, name) => {
+    if (e.target.checked) {
+      setSelectedTags([...selectedTags, name]);
+    }
   };
-  const imamgeUploadRef = useRef(null);
+
+  const imageUploadRef = useRef(null);
   const handleUploadImage = (e) => {
     const uploadedFile = e.target.files[0];
     const cachedURL = URL.createObjectURL(uploadedFile);
     setAvatarURL(cachedURL);
+    setValue("photo", imageUploadRef.current.files);
   };
   const handleOpenFile = () => {
-    imamgeUploadRef.current.addEventListener("change", handleUploadImage);
-    imamgeUploadRef.current.click();
+    imageUploadRef.current.addEventListener("change", handleUploadImage);
+    imageUploadRef.current.click();
   };
   const handleAddArticle = (formData) => {
+    if (selectedTags?.length < 2) {
+      return setError("tags", { message: "3 tags is required" });
+    }
     console.log(formData);
   };
 
@@ -78,7 +86,7 @@ export default function AddArticle() {
                     {...register("photo", {
                       required: "Article image is required",
                     })}
-                    ref={imamgeUploadRef}
+                    ref={imageUploadRef}
                     className="hidden"
                     type="file"
                     name="photo"
@@ -90,7 +98,15 @@ export default function AddArticle() {
             </Field>
 
             <Field error={errors.tags}>
-              <SelectTags onSelect={handleSelectTags} register={register} />
+              <>
+                <label
+                  htmlFor="tags"
+                  className="block mb-3 text-[#9CA3AF] text-lg"
+                >
+                  Select at least 3 tags
+                </label>
+                <SelectTags onSelect={handleSelectTags} />
+              </>
             </Field>
 
             <Field error={errors.description}>

@@ -1,6 +1,4 @@
-import Select from "react-select";
-
-const SelectTags = ({ register, onSelect }) => {
+const SelectTags = ({ onSelect }) => {
   const options = [
     { value: "programming", label: "Programming" },
     { value: "coding", label: "Coding" },
@@ -17,13 +15,20 @@ const SelectTags = ({ register, onSelect }) => {
   ];
 
   return (
-    <Select
-      {...register("tags", { required: "Please select must be 3 tags" })}
-      className="w-full text-base font-normal placeholder:text-base text-slate-500 placeholder:italic"
-      placeholder="Please select tags"
-      onChange={onSelect}
-      options={options}
-    />
+    <div className="flex flex-wrap gap-2 text-xs">
+      {options?.map((tag) => (
+        <label key={tag.value}>
+          <input
+            type="checkbox"
+            onChange={(e) => onSelect(e, tag.value)}
+            className="hidden peer"
+          />
+          <span className="px-2 py-1 text-white bg-indigo-500 rounded-lg peer-checked:bg-green-500">
+            {tag.label}
+          </span>
+        </label>
+      ))}
+    </div>
   );
 };
 

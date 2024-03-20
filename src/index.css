@@ -22,6 +22,18 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
+  option {
+    background-color: #fff;
+    color: gray;
+  }
+  option:hover {
+    background-color: #f0f0f0;
+  }
+
+  option:checked {
+    background-color: #1e88e5;
+    color: #fff;
+  }
 
   /* Navbar */
   header {
@@ -102,6 +114,9 @@
 
   .createArticle textarea {
     @apply w-full pl-0 text-lg bg-transparent border-none outline-none appearance-none focus:ring-0 placeholder:text-lg focus:border-none focus:outline-none;
+  }
+  .createArticle select {
+    @apply w-full p-2 text-base font-normal rounded-md placeholder:text-base text-slate-500 focus:outline-none placeholder:italic;
   }
 
   /* Action Modal */
