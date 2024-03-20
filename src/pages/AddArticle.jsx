@@ -1,8 +1,8 @@
+import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import SelectTags from "../components/Article/SelectTags";
 import Field from "../components/shared/Field";
-
 export default function AddArticle() {
   const {
     register,
@@ -132,9 +132,13 @@ export default function AddArticle() {
               ></textarea>
             </Field>
 
-            <button className="px-6 py-2 text-white transition-all duration-200 bg-indigo-600 rounded-md md:py-3 hover:bg-indigo-700">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className="px-6 py-2 text-white transition-all duration-200 bg-indigo-600 rounded-md md:py-3 hover:bg-indigo-700"
+            >
               Submit
-            </button>
+            </motion.button>
           </form>
         </div>
       </section>
