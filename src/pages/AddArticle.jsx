@@ -13,9 +13,17 @@ export default function AddArticle() {
   } = useForm();
   const [avatarURL, setAvatarURL] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
+  const [tagError, setTagError] = useState("");
   const handleSelectTags = (e, name) => {
     if (e.target.checked) {
       setSelectedTags([...selectedTags, name]);
+      setValue("tags", [...selectedTags, name]);
+    } else {
+      setSelectedTags(selectedTags.filter((t) => t !== name));
+      setValue(
+        "tags",
+        selectedTags.filter((t) => t !== name)
+      );
     }
   };
 
@@ -31,9 +39,12 @@ export default function AddArticle() {
     imageUploadRef.current.click();
   };
   const handleAddArticle = (formData) => {
-    if (selectedTags?.length < 2) {
-      return setError("tags", { message: "3 tags is required" });
+    if (selectedTags?.length < 3) {
+      return setTagError({ message: "3 tags is required" });
+    } else {
+      setTagError("");
     }
+
     console.log(formData);
   };
 
@@ -97,7 +108,7 @@ export default function AddArticle() {
               </div>
             </Field>
 
-            <Field error={errors.tags}>
+            <Field error={tagError}>
               <>
                 <label
                   htmlFor="tags"
